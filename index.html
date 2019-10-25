@@ -24,7 +24,12 @@
           <div class="card bg-primary text-white mt-5 p-4">
             <h1>Number Facts</h1>
             <p>Enter a number and get a random fact</p>
-            <input type="number" class="form-control form-control-lg" id="numberInput" placeholder="Enter a number...">
+            <input
+              type="number"
+              class="form-control form-control-lg"
+              id="numberInput"
+              placeholder="Enter a number..."
+            />
             <div id="fact" class="card-body">
               <h4 class="card-title">
                 Number Fact
@@ -37,29 +42,45 @@
     </div>
 
     <script>
-      let fact = document.querySelector('#fact');
-      let factText = document.querySelector('#factText');
+      let fact = document.querySelector("#fact");
+      let factText = document.querySelector("#factText");
 
-      let numberInput = document.querySelector('#numberInput');
-      numberInput.addEventListener('input', getFactAjax);
+      let numberInput = document.querySelector("#numberInput");
+      numberInput.addEventListener("input", getFactFetch);
 
-      function getFactAjax() {
+      // function getFactAjax() {
+      //   let number = numberInput.value;
+
+      //   let xhr = new XMLHttpRequest();
+      //   xhr.open('GET', 'http://numbersapi.com/'+number);
+
+      //   xhr.onload = function(){
+      //     if(this.status === 200 && number !== ''){
+      //       fact.style.display = 'block';
+      //       factText.innerText = this.responseText;
+      //     } else if(number === '') {
+      //       fact.style.display = 'none';
+      //     }
+      //   }
+
+      //   xhr.send();
+      // }
+
+      function getFactFetch() {
         let number = numberInput.value;
 
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://numbersapi.com/'+number);
-
-        xhr.onload = function(){
-          if(this.status === 200 && number !== ''){
-            fact.style.display = 'block';
-            factText.innerText = this.responseText;
-
-          }
-        }
-
-        xhr.send();
+        fetch("http://numbersapi.com/" + number)
+          .then(response => response.text())
+          .then(data => {
+            if (number !== "") {
+              fact.style.display = "block";
+              factText.innerText = data;
+            } else {
+              fact.style.display = "none";
+            }
+          })
+          .catch(err => console.log(err));
       }
-
     </script>
   </body>
 </html>
